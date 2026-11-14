@@ -1,0 +1,25 @@
+name: Co-op review
+on:
+  push:
+    branches: [integration/coop-review]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  server:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+      - name: Compile full server and regression tests
+        run: |
+          mkdir -p server/build/review
+          javac -encoding UTF-8 -Xlint:all -d server/build/review server/src/*.java server/tests/*.java
+      - name: Run session and forwarding regressions
+        run: |
+          java -cp server/build/review SessionTimeoutTest
+          java -cp server/build/review CoopOrderingTest
