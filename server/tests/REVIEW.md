@@ -12,6 +12,7 @@ mkdir -p server/build/review
 javac -encoding UTF-8 -Xlint:all -d server/build/review server/src/*.java server/tests/*.java
 java -cp server/build/review SessionTimeoutTest
 java -cp server/build/review CoopOrderingTest
+python3 server/tests/udp_review_test.py server/build/review
 ```
 
 ## Game checks

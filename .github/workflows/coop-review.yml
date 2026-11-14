@@ -10,8 +10,8 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 5
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-java@v4
+      - uses: actions/checkout@v5
+      - uses: actions/setup-java@v5
         with:
           distribution: temurin
           java-version: '21'
@@ -23,3 +23,5 @@ jobs:
         run: |
           java -cp server/build/review SessionTimeoutTest
           java -cp server/build/review CoopOrderingTest
+      - name: Exercise the real server with three UDP clients
+        run: python3 server/tests/udp_review_test.py server/build/review
